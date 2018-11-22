@@ -1,11 +1,12 @@
 {% extends 'base.html' %}
 
 {% block title %}
-fbv
+cbv
 {% endblock %}
 
 {% block content %}
 <a href="{% url 'home' %}">back to home</a><br>
+
 <table class="table table-bordered">
   <thead>
     <tr>
@@ -15,14 +16,14 @@ fbv
     </tr>
   </thead>
   <tbody>
-    <a href="{% url 'fbv:add' %}">add</a>
-    {% for b in book %}
+    <a href="{% url 'cbv:add' %}">add</a>
+    {% for b in object_list %}
     <tr>
       <td>{{ b.name }}</td>
       <td>{{ b.pages }}</td>
       <td>
-        <a href="{% url 'fbv:update' b.id %}">edit</a>
-        <a href="{% url 'fbv:delete' b.id %}">delete</a>
+        <a href="{% url 'cbv:update' b.id %}">edit</a>
+        <a href="{% url 'cbv:delete' b.id %}">delete</a>
       </td>
     </tr>
     {% endfor %}
