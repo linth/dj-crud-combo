@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block title %}
+home
+{% endblock %}
+
+{% block content %}
+<a href="{% url 'fbv:index' %}">Function-based view</a><br>
+<a href="">Class-based view</a><br>
+<a href="">REST framework</a>
+{% endblock %}
