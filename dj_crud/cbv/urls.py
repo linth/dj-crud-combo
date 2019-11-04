@@ -14,13 +14,23 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path, include
+from django.conf.urls import url
 from cbv import views
 
 app_name = 'cbv'
 
 urlpatterns = [
-    path('', views.BookList.as_view(), name='index'),
+    # using path.
+    path('', views.BookList.as_view(), name='list'),
     path('add/', views.BookCreate.as_view(), name='add'),
+    path('drafts/', views.DraftsBookList.as_view(), name='drafts'),
     path('update/<int:pk>', views.BookUpdate.as_view(), name='update'),
     path('delete/<int:pk>', views.BookDelete.as_view(), name='delete'),
+
+    # using urrl
+    # url(r'^$', views.BookList.as_view(), name='list'),
+    # url(r'^add/$', views.BookCreate.as_view(), name='add'),
+    # url(r'^drafts/$', views.DraftsBookList.as_view(), name='drafts'),
+    # url(r'^update/(?P<pk>[0-9]+)$', views.BookUpdate.as_view(), name='update'),
+    # url(r'^delete/(?P<pk>[0-9]+)$', views.BookDelete.as_view(), name='delete'),
 ]

@@ -6,27 +6,56 @@ cbv
 
 {% block content %}
 <a href="{% url 'home' %}">back to home</a><br>
+<a href="{% url 'cbv:list' %}">published list</a>
+<a href="{% url 'cbv:drafts' %}">drafts list</a>
+<hr>
 
 <table class="table table-bordered">
   <thead>
     <tr>
       <th>Name</th>
       <th>Pages</th>
+      <th>Status</th>
+      <th>Created Date</th>
+      <th>Updated Date</th>
       <th>Activity</th>
     </tr>
   </thead>
   <tbody>
     <a href="{% url 'cbv:add' %}">add</a>
-    {% for b in object_list %}
+    {% for b in book %}
     <tr>
       <td>{{ b.name }}</td>
       <td>{{ b.pages }}</td>
+      <td>{{ b.status }}</td>
+      <td>{{ b.created_at | date:'Y/m/d h:m:s' }}</td>
+      <td>{{ b.updated_at | date:'Y/m/d h:m:s' }}</td>
       <td>
         <a href="{% url 'cbv:update' b.id %}">edit</a>
         <a href="{% url 'cbv:delete' b.id %}">delete</a>
       </td>
     </tr>
     {% endfor %}
+  </tbody>
+</table>
+
+<hr>
+
+<table>
+  <thead>
+    <tr>
+      <th># of pages</th>
+      <th># of drift</th>
+      <th># of published</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <tr>
+        <td>{{ num_of_book_pages }}</td>
+        <td>{{ num_of_draft }}</td>
+        <td>{{ num_of_published }}</td>
+      </tr>
   </tbody>
 </table>
 {% endblock %}
