@@ -10,6 +10,14 @@ cbv
 <a href="{% url 'cbv:drafts' %}">drafts list</a>
 <hr>
 
+<form method="get">
+  <input id="query" name="query" value="{{ query }}"> <button type="submit">submit</button>
+</form>
+
+<br>
+{{ result }}
+<br>
+
 <table class="table table-bordered">
   <thead>
     <tr>
@@ -31,6 +39,7 @@ cbv
       <td>{{ b.created_at | date:'Y/m/d h:m:s' }}</td>
       <td>{{ b.updated_at | date:'Y/m/d h:m:s' }}</td>
       <td>
+        <a href="{% url 'cbv:detail' b.id %}">detail</a>
         <a href="{% url 'cbv:update' b.id %}">edit</a>
         <a href="{% url 'cbv:delete' b.id %}">delete</a>
       </td>
@@ -38,6 +47,8 @@ cbv
     {% endfor %}
   </tbody>
 </table>
+
+{# TODO: pagination. #}
 
 <hr>
 

@@ -26,6 +26,7 @@ urlpatterns = [
     path('drafts/', views.DraftsBookList.as_view(), name='drafts'),
     path('update/<int:pk>', views.BookUpdate.as_view(), name='update'),
     path('delete/<int:pk>', views.BookDelete.as_view(), name='delete'),
+    path('detail/<int:pk>', views.BookDetail.as_view(), name='detail')
 
     # using urrl
     # url(r'^$', views.BookList.as_view(), name='list'),

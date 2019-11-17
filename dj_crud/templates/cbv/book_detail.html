@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}
+cbv form
+{% endblock %}
+
+{% block content %}
+detail page.<br>
+<a href="{% url 'cbv:list' %}">go back the list</a><br>
+
+Book Name: {{ name }}<br>
+Status: {{ status }}<br>
+Pages: {{ pages }}<br>
+Created date: {{ created_at }}<br>
+Update date: {{ updated_at }}<br>
+{% endblock %}

@@ -16,18 +16,22 @@ class BookList(ListView):
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
-        context['num_of_book_pages'] = Book.object.get_num_of_book_pages()['pages__sum']
-        context['num_of_draft'] = Book.object.get_num_of_drafts()
-        context['num_of_published'] = Book.object.get_num_of_published()
+        context['num_of_book_pages'] = Book.objects.get_num_of_book_pages()['pages__sum']
+        context['num_of_draft'] = Book.objects.get_num_of_drafts()
+        context['num_of_published'] = Book.objects.get_num_of_published()
+
+        query = self.request.GET.get('query')
+        context['query'] = query
         return context
 
     def get_queryset(self):
-        return Book.object.all()
+        # TODO: change the queryset by different query conditions.
+        return Book.objects.all()
 
 
 class DraftsBookList(BookList):
     def get_queryset(self, **kwargs):
-        return Book.object.get_drafts()
+        return Book.objects.get_drafts()
 
 
 class BookCreate(CreateView):
@@ -66,3 +70,14 @@ class BookDelete(DeleteView):
 
 class BookDetail(DetailView):
     model = Book
+    template_name = 'cbv/book_detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        book_object = Book.objects.get(id=self.kwargs['pk'])
+        context['name'] = book_object.name
+        context['status'] = book_object.status
+        context['pages'] = book_object.pages
+        context['created_at'] = book_object.created_at
+        context['updated_at'] = book_object.updated_at
+        return context

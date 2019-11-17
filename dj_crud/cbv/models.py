@@ -46,7 +46,7 @@ class Book(models.Model):
     #     on_delete=models.SET_NULL)
     created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, blank=True, null=True)
-    object = BookQuerySet.as_manager()
+    objects = BookQuerySet.as_manager()
 
     class Meta:
         db_table = 'cbv_book'
