@@ -1,8 +1,10 @@
 from django.contrib import messages
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
+from django.views.decorators.csrf import csrf_exempt
 from django.urls import reverse_lazy, reverse
+
 
 from .models import Book
 from .forms import BookForm
@@ -14,19 +16,20 @@ class BookList(ListView):
     context_object_name = "book" # Defailt: object_list.
     template_name = 'cbv/book_list.html' # Default: <app_label>/<model_name>_list.html
 
-    def get_context_data(self, *args, **kwargs):
-        context = super().get_context_data(*args, **kwargs)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
         context['num_of_book_pages'] = Book.objects.get_num_of_book_pages()['pages__sum']
         context['num_of_draft'] = Book.objects.get_num_of_drafts()
         context['num_of_published'] = Book.objects.get_num_of_published()
-
-        query = self.request.GET.get('query')
-        context['query'] = query
         return context
 
     def get_queryset(self):
         # TODO: change the queryset by different query conditions.
-        return Book.objects.all()
+        query = self.request.GET.get('query')
+        if query is not None:
+            return Book.objects.filter(name__icontains=query)
+        else:
+            return Book.objects.all()
 
 
 class DraftsBookList(BookList):
@@ -81,3 +84,22 @@ class BookDetail(DetailView):
         context['created_at'] = book_object.created_at
         context['updated_at'] = book_object.updated_at
         return context
+
+
+# API
+@csrf_exempt
+def get_all_book(request):
+    b = Book.objects.all().values()
+    return JsonResponse(list(b), safe=False)
+
+
+@csrf_exempt
+def search_book_by_get_method(request):
+    query = request.GET.get('query')
+    b = Book.objects.filter(name__icontains=query)
+    return JsonResponse(list(b), safe=False)
+
+
+@csrf_exempt
+def search_book_by_post_method(request):
+    pass
