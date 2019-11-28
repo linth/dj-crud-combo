@@ -35,6 +35,9 @@ urlpatterns = [
     # url(r'^update/(?P<pk>[0-9]+)$', views.BookUpdate.as_view(), name='update'),
     # url(r'^delete/(?P<pk>[0-9]+)$', views.BookDelete.as_view(), name='delete'),
 
+    # sorting
+    path('SortedNameBookList/', views.SortedNameBookList.as_view(), name='SortedNameBookList'),
+
     # API
     path('get_all_book/', views.get_all_book, name='get_all_book'),
     path('search_book_by_get_method', views.search_book_by_get_method, name='search_book_by_get_method'),

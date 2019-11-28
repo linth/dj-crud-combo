@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from django.utils import timezone
 # from django.conf import settings
 # from django.utils.translation import ugettext_lazy as _ # TODO: not used temporarily.
 
@@ -44,6 +45,10 @@ class Book(models.Model):
     #     null=True,
     #     related_name='book',
     #     on_delete=models.SET_NULL)
+    current_price = models.FloatField(null=True)
+    last_price = models.FloatField(null=True)
+    max_price = models.FloatField(null=True, default=0)
+    min_price = models.FloatField(null=True, default=0)
     created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, blank=True, null=True)
     objects = BookQuerySet.as_manager()
@@ -60,5 +65,8 @@ class Book(models.Model):
     # def get_absolute_url(self):
     #     return reverse('books_cbv:book_edit', kwargs={'pk': self.pk})
 
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
+    # TODO: to understand the save function.
+    # def save(self):
+    #     super().save(self)
+    #     # print('args=>', args)
+    #     # print('kwargs=>', kwargs)

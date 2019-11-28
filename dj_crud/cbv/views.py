@@ -4,6 +4,7 @@ from django.http import HttpResponse, JsonResponse
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 from django.views.decorators.csrf import csrf_exempt
 from django.urls import reverse_lazy, reverse
+from django.core.paginator import Paginator
 
 
 from .models import Book
@@ -35,6 +36,11 @@ class BookList(ListView):
 class DraftsBookList(BookList):
     def get_queryset(self, **kwargs):
         return Book.objects.get_drafts()
+
+
+class SortedNameBookList(BookList):
+    def get_queryset(self, **kwargs):
+        return Book.objects.all().order_by('name')
 
 
 class BookCreate(CreateView):
@@ -81,6 +87,7 @@ class BookDetail(DetailView):
         context['name'] = book_object.name
         context['status'] = book_object.status
         context['pages'] = book_object.pages
+        context['price'] = book_object.current_price
         context['created_at'] = book_object.created_at
         context['updated_at'] = book_object.updated_at
         return context
