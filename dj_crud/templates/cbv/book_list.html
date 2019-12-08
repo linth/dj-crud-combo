@@ -11,7 +11,18 @@ cbv
 <hr>
 
 <form method="get">
-  <input id="query" name="query" value="{{ query }}"> <button type="submit">submit</button>
+    <select id="status" name="status" value="{{ status }}">
+        <option value=""> --- </option>
+        {% for i in all_status %}
+            {% if status == i.1 %}
+                <option value="{{ status }}" selected>{{ status }}</option>
+            {% else %}
+                <option value="{{ i.1 }}">{{ i.1 }}</option>
+            {% endif %}
+        {% endfor %}
+    </select>
+    <input id="query" name="query" value="{{ query }}">
+    <button type="submit">submit</button>
 </form>
 
 <br>
@@ -19,7 +30,7 @@ cbv
 <table class="table table-bordered">
   <thead>
     <tr>
-      <th><a href="{% url 'cbv:SortedNameBookList' %}">Name</a></th>
+      <th>Name</th>
       <th>Pages</th>
       <th>Status</th>
       <th>Price</th>
@@ -57,8 +68,8 @@ cbv
 <div class="pagination">
     <span class="step-links">
         {% if page_obj.has_previous %}
-            <a href="?page=1">&laquo; first</a>
-            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+            <a href="?page=1&query={{ query }}">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}&query={{ query }}">previous</a>
         {% endif %}
 
         <span class="current">
@@ -66,8 +77,8 @@ cbv
         </span>
 
         {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}">next</a>
-            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+            <a href="?page={{ page_obj.next_page_number }}&query={{ query }}">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}&query={{ query }}">last &raquo;</a>
         {% endif %}
     </span>
 </div>

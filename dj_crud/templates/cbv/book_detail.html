@@ -8,10 +8,10 @@ cbv form
 detail page.<br>
 <a href="{% url 'cbv:list' %}">go back the list</a><br>
 
-Book Name: {{ name }}<br>
-Status: {{ status }}<br>
-Pages: {{ pages }}<br>
-Price: {{ price }} <br>
-Created date: {{ created_at }}<br>
-Update date: {{ updated_at }}<br>
+Book Name: {{ book.name }}<br>
+Status: {{ book.status }}<br>
+Pages: {{ book.pages }}<br>
+Price: {{ book.price }} <br>
+Created date: {{ book.created_at }}<br>
+Update date: {{ book.updated_at }}<br>
 {% endblock %}

@@ -36,7 +36,7 @@ urlpatterns = [
     # url(r'^delete/(?P<pk>[0-9]+)$', views.BookDelete.as_view(), name='delete'),
 
     # sorting
-    path('SortedNameBookList/', views.SortedNameBookList.as_view(), name='SortedNameBookList'),
+    # TODO: sorting functionality
 
     # API
     path('get_all_book/', views.get_all_book, name='get_all_book'),

@@ -5,7 +5,7 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView, D
 from django.views.decorators.csrf import csrf_exempt
 from django.urls import reverse_lazy, reverse
 from django.core.paginator import Paginator
-
+from django.db.models import Q
 
 from .models import Book
 from .forms import BookForm
@@ -22,25 +22,26 @@ class BookList(ListView):
         context['num_of_book_pages'] = Book.objects.get_num_of_book_pages()['pages__sum']
         context['num_of_draft'] = Book.objects.get_num_of_drafts()
         context['num_of_published'] = Book.objects.get_num_of_published()
+        if self.request.GET.get('query', None) is not None:
+            context['query'] = self.request.GET.get('query')
+        context['all_status'] = Book.STATUS
+        context['status'] = self.request.GET.get('status', None)
         return context
 
     def get_queryset(self):
-        # TODO: change the queryset by different query conditions.
-        query = self.request.GET.get('query')
+        query = self.request.GET.get('query', None)
+        # status = self.request.GET.get('status', None)
+        # print('status', status, type(status))
         if query is not None:
             return Book.objects.filter(name__icontains=query)
         else:
+            # return Book.objects.filter(status=status)
             return Book.objects.all()
 
 
 class DraftsBookList(BookList):
     def get_queryset(self, **kwargs):
         return Book.objects.get_drafts()
-
-
-class SortedNameBookList(BookList):
-    def get_queryset(self, **kwargs):
-        return Book.objects.all().order_by('name')
 
 
 class BookCreate(CreateView):
@@ -81,16 +82,17 @@ class BookDetail(DetailView):
     model = Book
     template_name = 'cbv/book_detail.html'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        book_object = Book.objects.get(id=self.kwargs['pk'])
-        context['name'] = book_object.name
-        context['status'] = book_object.status
-        context['pages'] = book_object.pages
-        context['price'] = book_object.current_price
-        context['created_at'] = book_object.created_at
-        context['updated_at'] = book_object.updated_at
-        return context
+    # TODO: if use detailview, you couldn't use the get_context_data of function.
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     book_object = Book.objects.get(id=self.kwargs['pk'])
+    #     context['name'] = book_object.name
+    #     context['status'] = book_object.status
+    #     context['pages'] = book_object.pages
+    #     context['price'] = book_object.current_price
+    #     context['created_at'] = book_object.created_at
+    #     context['updated_at'] = book_object.updated_at
+    #     return context
 
 
 # API

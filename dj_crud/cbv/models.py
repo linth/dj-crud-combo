@@ -29,16 +29,16 @@ class BookQuerySet(models.QuerySet):
 
 
 class Book(models.Model):
-    DRAFT = "D" # draft data,
-    PUBLISHED = "P" # published data.
+    # DRAFT = "D" # draft data,
+    # PUBLISHED = "P" # published data.
     STATUS = (
-        (DRAFT, 'Draft'),
-        (PUBLISHED, 'Published'),
+        ('DRAFT', 'Draft'),
+        ('PUBLISHED', 'Published'),
     )
 
     name = models.CharField(max_length=20, unique=True, null=False)
     pages = models.IntegerField(default=0, null=False)
-    status = models.CharField(max_length=1, choices=STATUS, default=DRAFT)
+    status = models.CharField(max_length=1, choices=STATUS, default='DRAFT')
     # TODO: need to learn how to use them.
     # user = models.ForeignKey(
     #     settings.AUTH_USER_MODEL,
@@ -70,3 +70,5 @@ class Book(models.Model):
     #     super().save(self)
     #     # print('args=>', args)
     #     # print('kwargs=>', kwargs)
+
+    # TODO: how to use the function: get_absolute_url()
