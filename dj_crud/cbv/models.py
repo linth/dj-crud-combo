@@ -38,7 +38,7 @@ class Book(models.Model):
 
     name = models.CharField(max_length=20, unique=True, null=False)
     pages = models.IntegerField(default=0, null=False)
-    status = models.CharField(max_length=1, choices=STATUS, default='DRAFT')
+    status = models.CharField(max_length=10, choices=STATUS, default='DRAFT')
     # TODO: need to learn how to use them.
     # user = models.ForeignKey(
     #     settings.AUTH_USER_MODEL,
@@ -61,6 +61,15 @@ class Book(models.Model):
 
     def __str__(self):
         return self.name
+
+    def to_dict_json(self):
+        return {'id': self.id,
+                'name': self.name,
+                'pages': self.pages,
+                'status': self.STATUS,
+                'price': self.current_price,
+                'created_at': self.created_at,
+                'updated_at': self.updated_at,}
 
     # def get_absolute_url(self):
     #     return reverse('books_cbv:book_edit', kwargs={'pk': self.pk})

@@ -26,6 +26,7 @@ class BookList(ListView):
             context['query'] = self.request.GET.get('query')
         context['all_status'] = Book.STATUS
         context['status'] = self.request.GET.get('status', None)
+        # context['ss'] = Book.objects.get(id=1).to_dict_json()
         return context
 
     def get_queryset(self):
@@ -37,6 +38,13 @@ class BookList(ListView):
         else:
             # return Book.objects.filter(status=status)
             return Book.objects.all()
+
+
+def test_json(request):
+    books = Book.objects.all()
+    data = [book.to_dict_json() for book in books]
+    response = {'data': data}
+    return JsonResponse(response, safe=False, content_type='application/json')
 
 
 class DraftsBookList(BookList):
@@ -82,33 +90,36 @@ class BookDetail(DetailView):
     model = Book
     template_name = 'cbv/book_detail.html'
 
-    # TODO: if use detailview, you couldn't use the get_context_data of function.
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     book_object = Book.objects.get(id=self.kwargs['pk'])
-    #     context['name'] = book_object.name
-    #     context['status'] = book_object.status
-    #     context['pages'] = book_object.pages
-    #     context['price'] = book_object.current_price
-    #     context['created_at'] = book_object.created_at
-    #     context['updated_at'] = book_object.updated_at
-    #     return context
 
-
+# --------------------------------------------------------------
 # API
+# --------------------------------------------------------------
 @csrf_exempt
 def get_all_book(request):
-    b = Book.objects.all().values()
+    try:
+        b = Book.objects\
+            .all()\
+            .values()
+    except Exception as e:
+        raise ('[ERROR] get_all_book: ', e)
     return JsonResponse(list(b), safe=False)
 
 
 @csrf_exempt
 def search_book_by_get_method(request):
+    """ through get method to get queryset by AJAX. """
     query = request.GET.get('query')
-    b = Book.objects.filter(name__icontains=query)
+    try:
+        b = Book.objects\
+            .filter(name__icontains=query)\
+            .values()
+    except Exception as e:
+        raise ('[ERROR] search_book_by_get_method: ', e)
     return JsonResponse(list(b), safe=False)
 
 
 @csrf_exempt
 def search_book_by_post_method(request):
-    pass
+    """ through post method to get queryset by AJAX. """
+    res = []
+    return JsonResponse(list(res), safe=False)

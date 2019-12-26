@@ -28,7 +28,7 @@ urlpatterns = [
     path('delete/<int:pk>', views.BookDelete.as_view(), name='delete'),
     path('detail/<int:pk>', views.BookDetail.as_view(), name='detail'),
 
-    # using urrl
+    # using url
     # url(r'^$', views.BookList.as_view(), name='list'),
     # url(r'^add/$', views.BookCreate.as_view(), name='add'),
     # url(r'^drafts/$', views.DraftsBookList.as_view(), name='drafts'),
@@ -39,7 +39,8 @@ urlpatterns = [
     # TODO: sorting functionality
 
     # API
+    path('test/json/', views.test_json, name='test_json'),
     path('get_all_book/', views.get_all_book, name='get_all_book'),
-    path('search_book_by_get_method', views.search_book_by_get_method, name='search_book_by_get_method'),
-    path('search_book_by_post_method', views.search_book_by_get_method, name='search_book_by_post_method'),
+    path('search_book_by_get_method/', views.search_book_by_get_method, name='search_book_by_get_method'),
+    path('search_book_by_post_method/', views.search_book_by_get_method, name='search_book_by_post_method'),
 ]
