@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
@@ -11,7 +12,7 @@ from .models import Book
 from .forms import BookForm
 
 
-class BookList(ListView):
+class BookList(LoginRequiredMixin, ListView):
     model = Book
     paginate_by = 10
     context_object_name = "book" # Defailt: object_list.
@@ -22,10 +23,12 @@ class BookList(ListView):
         context['num_of_book_pages'] = Book.objects.get_num_of_book_pages()['pages__sum']
         context['num_of_draft'] = Book.objects.get_num_of_drafts()
         context['num_of_published'] = Book.objects.get_num_of_published()
-        if self.request.GET.get('query', None) is not None:
-            context['query'] = self.request.GET.get('query')
         context['all_status'] = Book.STATUS
         context['status'] = self.request.GET.get('status', None)
+
+        if self.request.GET.get('query', None) is not None:
+            context['query'] = self.request.GET.get('query')
+
         # context['ss'] = Book.objects.get(id=1).to_dict_json()
         return context
 
@@ -40,19 +43,12 @@ class BookList(ListView):
             return Book.objects.all()
 
 
-def test_json(request):
-    books = Book.objects.all()
-    data = [book.to_dict_json() for book in books]
-    response = {'data': data}
-    return JsonResponse(response, safe=False, content_type='application/json')
-
-
 class DraftsBookList(BookList):
     def get_queryset(self, **kwargs):
         return Book.objects.get_drafts()
 
 
-class BookCreate(CreateView):
+class BookCreate(LoginRequiredMixin, CreateView):
     model = Book
     message = ("Your book has been created.")
     form_class = BookForm
@@ -66,7 +62,7 @@ class BookCreate(CreateView):
         return reverse('cbv:list')
 
 
-class BookUpdate(UpdateView):
+class BookUpdate(LoginRequiredMixin, UpdateView):
     model = Book
     message = ('Your book has been updated.')
     form_class = BookForm
@@ -80,15 +76,22 @@ class BookUpdate(UpdateView):
         return reverse('cbv:list')
 
 
-class BookDelete(DeleteView):
+class BookDelete(LoginRequiredMixin, DeleteView):
     model = Book
     # TODO: need to check what's different between reverse and reverse_lazy.
     success_url = reverse_lazy('cbv:list')
 
 
-class BookDetail(DetailView):
+class BookDetail(LoginRequiredMixin, DetailView):
     model = Book
     template_name = 'cbv/book_detail.html'
+
+
+def test_json(request):
+    books = Book.objects.all()
+    data = [book.to_dict_json() for book in books]
+    response = {'data': data}
+    return JsonResponse(response, safe=False, content_type='application/json')
 
 
 # --------------------------------------------------------------
