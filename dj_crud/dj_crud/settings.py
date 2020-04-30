@@ -46,6 +46,7 @@ INSTALLED_APPS = [
 
     'fbv',
     'cbv',
+    'markdownx',
 ]
 
 MIDDLEWARE = [
