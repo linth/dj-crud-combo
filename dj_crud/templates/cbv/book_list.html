@@ -34,7 +34,7 @@ cbv
     <a href="{% url 'cbv:add' %}">add</a>
     {% for b in book %}
     <tr>
-      <td>{{ b.name }}</td>
+      <td>{{ b.name|title }}</td>
       <td>{{ b.pages }}</td>
       <td>{{ b.status }}</td>
       <td>

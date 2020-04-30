@@ -12,6 +12,7 @@ Book Name: {{ book.name }}<br>
 Status: {{ book.status }}<br>
 Pages: {{ book.pages }}<br>
 Price: {{ book.price }} <br>
+Description: {{ book.get_markdown|safe }} <br>
 Created date: {{ book.created_at }}<br>
 Update date: {{ book.updated_at }}<br>
 {% endblock %}
