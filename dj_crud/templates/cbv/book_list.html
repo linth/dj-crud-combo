@@ -24,6 +24,7 @@ cbv
       <th>Name</th>
       <th>Pages</th>
       <th>Status</th>
+      <th>Tags</th>
       <th>Price</th>
       <th>Created Date</th>
       <th>Updated Date</th>
@@ -37,6 +38,7 @@ cbv
       <td>{{ b.name|title }}</td>
       <td>{{ b.pages }}</td>
       <td>{{ b.status }}</td>
+      <td>{{ b.tags }}</td>
       <td>
         {% if b.current_price is not None %}
           {{ b.current_price }}

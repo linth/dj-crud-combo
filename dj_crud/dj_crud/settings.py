@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'fbv',
     'cbv',
     'markdownx',
+    'taggit',
 ]
 
 MIDDLEWARE = [

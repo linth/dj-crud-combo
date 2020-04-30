@@ -10,6 +10,11 @@ detail page.<br>
 
 Book Name: {{ book.name }}<br>
 Status: {{ book.status }}<br>
+
+{% for b in book.tags.names %}
+    Tags: {{ b }}<br>
+{% endfor %}
+
 Pages: {{ book.pages }}<br>
 Price: {{ book.price }} <br>
 Description: {{ book.get_markdown|safe }} <br>
