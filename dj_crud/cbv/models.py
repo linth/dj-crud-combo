@@ -3,7 +3,9 @@ from django.urls import reverse
 from django.utils import timezone
 # from django.conf import settings
 # from django.utils.translation import ugettext_lazy as _ # TODO: not used temporarily.
-
+from markdownx.models import MarkdownxField
+from markdownx.utils import markdownify
+from taggit.managers import TaggableManager
 '''
 References:
     - https://github.com/vitorfs/bootcamp
@@ -49,7 +51,9 @@ class Book(models.Model):
     last_price = models.FloatField(null=True)
     max_price = models.FloatField(null=True, default=0)
     min_price = models.FloatField(null=True, default=0)
-    created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    description = MarkdownxField()
+    tags = TaggableManager()
+    created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True) # timestamp
     updated_at = models.DateTimeField(auto_now=True, blank=True, null=True)
     objects = BookQuerySet.as_manager()
 
@@ -61,6 +65,9 @@ class Book(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_markdown(self):
+        return markdownify(self.description)
 
     def to_dict_json(self):
         return {'id': self.id,
