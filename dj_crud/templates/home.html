@@ -5,6 +5,15 @@ home
 {% endblock %}
 
 {% block content %}
+
+{% if user.is_authenticated %}
+    Hi, {{ user }}. Welcome to visit the website.
+    <a href="{% url 'logout' %}">logout</a>
+{% else %}
+    <a href="{% url  'login' %}">login</a>
+{% endif %}
+
+<br>
 <a href="{% url 'fbv:index' %}">Function-based view</a><br>
 <a href="{% url 'cbv:list' %}">Class-based view</a><br>
 <a href="">REST framework</a>

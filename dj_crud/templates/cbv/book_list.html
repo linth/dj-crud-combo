@@ -24,6 +24,7 @@ cbv
       <th>Name</th>
       <th>Pages</th>
       <th>Status</th>
+      <th>Tags</th>
       <th>Price</th>
       <th>Created Date</th>
       <th>Updated Date</th>
@@ -34,9 +35,10 @@ cbv
     <a href="{% url 'cbv:add' %}">add</a>
     {% for b in book %}
     <tr>
-      <td>{{ b.name }}</td>
+      <td>{{ b.name|title }}</td>
       <td>{{ b.pages }}</td>
       <td>{{ b.status }}</td>
+      <td>{{ b.tags }}</td>
       <td>
         {% if b.current_price is not None %}
           {{ b.current_price }}

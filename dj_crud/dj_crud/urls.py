@@ -15,12 +15,20 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.views import defaults as default_views
+
 from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home, name='home'),
 
+    path('accounts/', include('django.contrib.auth.urls')),
     path('fbv/', include('fbv.urls', namespace='fbv')),
     path('cbv/', include('cbv.urls', namespace='cbv')),
+
+    path('400/', default_views.bad_request, kwargs={'exception': Exception('Bad Request!')}),
+    path('403/', default_views.permission_denied, kwargs={'exception': Exception('Permission Denied')}),
+    path('404/', default_views.page_not_found, kwargs={'exception': Exception('Page not Found')}),
+    path('500/', default_views.server_error),
 ]
