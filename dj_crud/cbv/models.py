@@ -66,6 +66,16 @@ class Book(models.Model):
     def __str__(self):
         return self.name
 
+    def set_max_price(self):
+        if self.max_price <= self.current_price:
+            self.max_price = self.current_price
+        return self.max_price
+
+    def set_min_price(self):
+        if self.min_price >= self.current_price:
+            self.min_price = self.current_price
+        return self.min_price
+
     def get_markdown(self):
         return markdownify(self.description)
 
