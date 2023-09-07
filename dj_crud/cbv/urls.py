@@ -13,8 +13,11 @@ Including another URLconf0
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.urls import path, include
-from django.conf.urls import url
+from django.urls import path, include, re_path
+
+# django.conf.urls.url() was deprecated in Django 3.0, and is removed in Django 4.0+.
+# from django.conf.urls import url 
+
 from cbv import views
 
 app_name = 'cbv'
@@ -29,11 +32,11 @@ urlpatterns = [
     path('detail/<int:pk>', views.BookDetail.as_view(), name='detail'),
 
     # using url
-    # url(r'^$', views.BookList.as_view(), name='list'),
-    # url(r'^add/$', views.BookCreate.as_view(), name='add'),
-    # url(r'^drafts/$', views.DraftsBookList.as_view(), name='drafts'),
-    # url(r'^update/(?P<pk>[0-9]+)$', views.BookUpdate.as_view(), name='update'),
-    # url(r'^delete/(?P<pk>[0-9]+)$', views.BookDelete.as_view(), name='delete'),
+    # re_path(r'^$', views.BookList.as_view(), name='list'),
+    # re_path(r'^add/$', views.BookCreate.as_view(), name='add'),
+    # re_path(r'^drafts/$', views.DraftsBookList.as_view(), name='drafts'),
+    # re_path(r'^update/(?P<pk>[0-9]+)$', views.BookUpdate.as_view(), name='update'),
+    # re_path(r'^delete/(?P<pk>[0-9]+)$', views.BookDelete.as_view(), name='delete'),
 
     # sorting
     # TODO: sorting functionality
