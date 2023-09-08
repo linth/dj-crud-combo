@@ -16,8 +16,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.views import defaults as default_views
+from rest_framework import routers
+from quickstart import views as views_quickstart
 
 from . import views
+
+router = routers.DefaultRouter()
+router.register(r'users', views_quickstart.UserViewSet)
+router.register(r'groups', views_quickstart.GroupViewSet)
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,6 +33,9 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('fbv/', include('fbv.urls', namespace='fbv')),
     path('cbv/', include('cbv.urls', namespace='cbv')),
+    
+    path('', include(router.urls)),
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 
     path('400/', default_views.bad_request, kwargs={'exception': Exception('Bad Request!')}),
     path('403/', default_views.permission_denied, kwargs={'exception': Exception('Permission Denied')}),
